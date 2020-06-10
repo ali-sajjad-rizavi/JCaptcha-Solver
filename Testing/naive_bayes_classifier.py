@@ -2,14 +2,13 @@ import numpy, json
 
 class NaiveBayesClassifier:
 	def __init__(self):
-		pass
+		self.classes = 'abcdefghijklmnopqrstuvwxyz0123456789'
 
 	def start_training(self):
 		print('Started training...')
 		training_X = numpy.array([csv_line.split(',') for csv_line in open('Collected Training Data/training_X.csv').read().strip().split('\n')]).astype(numpy.int)
 		training_Y = open('Collected Training Data/training_Y.csv').read().strip().split('\n')
 		#---
-		classes = 'abcdefghijklmnopqrstuvwxyz0123456789'
 		probabilities_dict = {}
 		probabilities_dict['class_probs'] = []
 		probabilities_dict['0'] = {}
@@ -17,7 +16,7 @@ class NaiveBayesClassifier:
 		#---
 		progress_count = 0
 		#---
-		for _class in classes:
+		for _class in self.classes:
 			current_class_matrix = numpy.array([list(training_X[i]) for i in range(len(training_X)) if training_Y[i] == _class])
 			probabilities_dict['1'][_class] = (current_class_matrix.sum(axis=0) + 1) / (len(current_class_matrix) + 36)
 			probabilities_dict['0'][_class] = 1 - probabilities_dict['1'][_class]
